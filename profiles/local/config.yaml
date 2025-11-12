@@ -1,0 +1,9 @@
+# Local Snakemake profile for project
+restart-times: 0
+cores: all
+latency-wait: 2
+keep-going: True
+rerun-incomplete: True
+printshellcmds: True
+scheduler: greedy
+use-conda: True
