@@ -1,8 +1,4 @@
-conda_env: "envs/nuradio_env.yaml"
-
-# Specific energy and event pairs (in eV) for simulation jobs
-# Explanation: Each job will simulate 'n_events' number of events at the specified 'energy' level.
-## The jobs are defined in a list format for easy parsing by the simulation framework and to allow for flexibility in job configuration.
+# Either define individual jobs:
 jobs:
   - energy: 5e16
     n_events: 20000
@@ -22,3 +18,18 @@ jobs:
     n_events: 5000
   - energy: 5e20
     n_events: 5000
+
+# OR define a range:
+range:
+  E_min: 5e16
+  E_max: 1e20
+  points_per_decade: 3
+  range_type: log # "log" or "linear"
+  n_events_max: 50000
+  n_events_min: 10000
+  decline_type: exponential
+  decline_factor: 2
+
+# Conda environment
+conda_env: "envs/nuradio_env.yaml"
+mode: range

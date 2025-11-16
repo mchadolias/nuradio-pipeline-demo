@@ -11,6 +11,8 @@ wheels/
 
 # Snakemake files
 .snakemake/
+Snakefile.new
+snake_config.yaml
 
 # Temp folders
 temp/
