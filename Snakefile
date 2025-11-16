@@ -4,23 +4,20 @@ from pathlib import Path
 configfile: "snake_config.yaml"
 
 # Ensure output folders exist
-Path("data/simulated_events").mkdir(parents=True, exist_ok=True)
-Path("data/triggered_events").mkdir(parents=True, exist_ok=True)
-Path("figures").mkdir(parents=True, exist_ok=True)
-Path("logs").mkdir(parents=True, exist_ok=True)
-
+for d in [
+    "data/simulated_events",
+    "data/triggered_events",
+    "figures/results",
+    "logs"
+]:
+    Path(d).mkdir(parents=True, exist_ok=True)
+    
 # Final rule: when finished, produce figures
 # (You can switch back to this later)
-# rule all:
-#     input:
-#         "figures/Veff.pdf",
-#         "figures/limits.pdf"
-
-# Temporary test: only check first step
 rule all:
     input:
-        [f"data/triggered_events/{job['energy']}_n{job['n_events']}.hdf5"
-         for job in config["jobs"]]
+        "figures/results/Veff.pdf",
+        "figures/results/limits.pdf"
 
 
 # Rule 1st: Generate events
@@ -49,8 +46,8 @@ rule detector_simulation:
     output:
         hdf5_trig="data/triggered_events/{energy}_n{n_events}.hdf5"
     params:
-        station_config="01_Veff_simulation/surface_station_1GHz.json",
-        sim_config="01_Veff_simulation/config.yaml",
+        station_config="configs/surface_station_1GHz.json",
+        sim_config="configs/config.yaml",
     conda:
         config["conda_env"]
     log:
@@ -69,14 +66,14 @@ rule detector_simulation:
 # Rule 3rd: Visualize Veff
 rule plot_veff:
     input:
-        [f"data/triggered_events/{float(job['energy']):.0e}_n{job['n_events']}.hdf5"
+        [f"data/triggered_events/{job['energy']}_n{job['n_events']}.hdf5"
          for job in config["jobs"]]
     params:
         trigg_folder="data/triggered_events/",
         script="01_Veff_simulation/T03visualizeVeff.py",
     output:
-        plot_1="figures/Veff.pdf",
-        plot_2="figures/limits.pdf"
+        plot_1="figures/results/Veff.pdf",
+        plot_2="figures/results/limits.pdf"
     conda:
         config["conda_env"]
     log:
