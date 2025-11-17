@@ -1,7 +1,7 @@
 # Local Snakemake profile for project
-restart-times: 0
+restart-times: 2
 cores: all
-latency-wait: 30
+latency-wait: 45
 keep-going: True
 rerun-incomplete: True
 printshellcmds: True

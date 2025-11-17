@@ -26,11 +26,11 @@ def main():
     outputfolder.mkdir(parents=True, exist_ok=True)
 
     # Format filename consistently in scientific notation without '+'
-    filename = f"{args.energy:.0e}_n{int(args.n_events)}.hdf5".replace("+", "")
+    filename = f"{args.energy}_n{int(args.n_events)}.hdf5"
     outputfile = outputfolder / filename
 
     # Load simulation volume
-    with open("01_Veff_simulation/simulation_volume.json", "r") as f:
+    with open("configs/simulation_volume.json", "r") as f:
         volume_data = json.load(f)
 
     # Apply units
